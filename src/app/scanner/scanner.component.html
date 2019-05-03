@@ -1,0 +1,101 @@
+<nav class="navbar navbar-dark bg-primary fixed-top">
+  <div class="container-fluid">
+    <div class="row w-100 justify-content-around" style="color: #fbf9f9c4  !important;">
+      <div class="col col-xs-4 text-left">
+
+      </div>
+      <div class="col col-xs-4 text-center">
+        <h3 >Scan Product</h3>
+      </div>
+      <div class="col col-xs-4 text-right">
+        <a routerLink="/shopping_cart" style="color: #fbf9f9c4  !important;">
+          <i class="fas fa-shopping-cart fa-2x">
+            <span *ngIf='productInCart>0' class="badge badge-pill badge-light"
+                  style="font-size: 40% !important;position: absolute;top: -10%">
+              {{productInCart}}
+            </span>
+          </i>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+<!--Scanner Directive-->
+<zxing-scanner
+  #scanner
+  scannerEnabled="true"
+  autofocusEnabled="true"
+  [device]="selectedDevice"
+  (camerasFound)="handleCamerasFound($event)"
+  (scanSuccess)="handleScanResult($event)"
+  (scanFailure)="handleScanFailure($event)"
+  (scanComplete)="handleScanComplete($event)"
+  [formats]="allowedFormats"
+>
+</zxing-scanner>
+
+<!--Product Modal Template-->
+<div *ngIf="isProductModalShown" [config]="{ show: true }" (onHidden)="onModalHide()" bsModal
+             #productModal="bs-modal"
+             class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Product Details</h4>
+      </div>
+      <div class="modal-body text-center">
+        <div class="row">
+          <div class="col col-4">
+            <img class="img-thumbnail" [src]="product?.img">
+          </div>
+          <div class="col col-8">
+            <p>Product Name: {{product?.name}}</p>
+            <p>Product Price: {{product?.price}}</p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-warning mx-2 px-2" (click)="cancelModal('product')">Cancel</button>
+        <button type="button" class="btn btn-success mx-2 px-2" (click)="addToCart()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Wrong Product Modal Template-->
+<div *ngIf="isWarningProductModalShown" [config]="{ show: true }" (onHidden)="onModalHide()"
+             bsModal #warningProductModal="bs-modal"
+             class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Product Details</h4>
+      </div>
+      <div class="modal-body text-center">
+        <p *ngIf = 'isWrongProductMessageShown'>The scanned product is not recognized. Please try again.</p>
+        <button type="button" class="btn btn-warning mx-2 px-2" *ngIf = 'isWrongProductMessageShown'
+                (click)="cancelModal('warning_product')">Retry</button>
+        <p *ngIf = 'isDuplicateProductMessageShown'>The scanned product is already added. Try Another one!</p>
+        <button type="button" class="btn btn-warning mx-2 px-2" *ngIf = 'isDuplicateProductMessageShown'
+                (click)="cancelModal('warning_product')">Cancel</button>
+        <button type="button" class="btn btn-danger mx-2 px-2" *ngIf = 'isDuplicateProductMessageShown'
+                (click)="cancelModal('warning_product');removeItem()">Remove</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Scan Error Template-->
+<div *ngIf="isScanErrorModalShown" [config]="{ show: true }"  (onHidden)="onModalHide()" bsModal
+   #scanErrorModal="bs-modal"
+             class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <p>Scanning Failed. Please Try again.</p>
+        <button type="button" class="btn btn-warning mx-2 px-2" (click)="cancelModal('scan_error')">Retry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

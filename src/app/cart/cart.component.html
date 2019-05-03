@@ -1,0 +1,55 @@
+<nav class="navbar navbar-dark bg-primary fixed-top">
+  <div class="container-fluid">
+    <div class="row w-100 justify-content-around" style="color: #fbf9f9c4  !important;">
+      <div class="col col-xs-4 text-left">
+        <a routerLink="/scan_product" style="color: #fbf9f9c4  !important;">
+          <i class="fas fa-arrow-left fa-2x"></i>
+        </a>
+      </div>
+      <div class="col col-xs-4 text-center">
+        <h3>Your Cart</h3>
+      </div>
+      <div class="col col-xs-4 text-right">
+        <a style="color: #fbf9f9c4  !important; text-decoration: none">
+          <button class="btn btn-dark bg-primary" (click)="emptyCart()">Empty Cart</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div style="margin-top: 6rem;" *ngIf="cartItems.length > 0">
+  <div class="row border border-dark py-2 mx-2 my-2" *ngFor="let product of cartProducts">
+    <div class="col col-2">
+      <img class="img-thumbnail" [src]="product.img">
+    </div>
+    <div class="col col-6">
+      <h5>{{product.name}}</h5>
+    </div>
+    <div class="col col-1">
+      <span>{{product.qty}}</span>
+    </div>
+    <div class="col col-3">
+      <span>{{product.price*product.qty}}</span>
+    </div>
+  </div>
+  <div class="row border-top border-dark py-3 my-5">
+    <div class="col col-8 text-right">
+      Total Cost
+    </div>
+    <div class="col col-4 text-center">
+      {{totalCost}}
+    </div>
+  </div>
+</div>
+<div style="margin-top: 6rem;" *ngIf="cartItems.length === 0">
+  <h3 class="my-5 py-5 text-center">Your Cart Is Empty! Go Back to Scan Products!</h3>
+</div>
+<nav class="navbar navbar-dark bg-success fixed-bottom" *ngIf="cartItems.length > 0" routerLink="/invoice">
+  <div class="container-fluid">
+    <div class="row w-100 justify-content-around" style="color: white  !important;">
+      <h4>Checkout</h4>
+    </div>
+  </div>
+</nav>
+
