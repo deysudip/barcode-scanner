@@ -26,7 +26,7 @@ export const PRODUCTS_DUMMY = [
   {
     id: '78020137762',
     productId: '000MNO',
-    name: 'Product A',
+    name: 'Product C',
     price: 300
   }
 ];
