@@ -163,6 +163,8 @@ SOFTWARE.
 
 ngx-bootstrap/component-loader
 
+ngx-bootstrap/datepicker
+
 ngx-bootstrap/modal
 
 ngx-bootstrap/positioning
